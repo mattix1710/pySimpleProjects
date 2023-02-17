@@ -157,10 +157,9 @@ class MainWindow(QWidget):
             label.setText(str(file_name))
             # image.setPixmap(self.img.scaled(label.size(), Qt.AspectRatioMode.KeepAspectRatio))
             
-            # INFO: there are some errors here!
-            # if functions.greaterThan(self.img.size(), image.size()):
-            #     print("HERE")
-            #     self.img_pix = self.img_pix.scaled(image.size(), aspectRatioMode=Qt.AspectRatioMode.KeepAspectRatio)
+            # if image size is greater than current window size - resize it:
+            if functions.greaterThan(self.img_pix.size(), image.size()):
+                self.img_pix = self.img_pix.scaled(image.size(), aspectRatioMode=Qt.AspectRatioMode.KeepAspectRatio)
             
             image.setPixmap(self.img_pix)
             butt_reset.show()
