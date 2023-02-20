@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QVBoxLayout, QWidget, QLabel, QGridLayout, QPushButton, QFileDialog, QHBoxLayout, QStackedLayout, QSlider, QSizePolicy
+from PyQt6.QtWidgets import QVBoxLayout, QWidget, QLabel, QGridLayout, QPushButton, QFileDialog, QHBoxLayout, QStackedLayout, QSlider, QSizePolicy, QScrollArea
 from PyQt6.QtCore import Qt, QSize, QStandardPaths
 from PyQt6 import QtGui
 from functools import partial
@@ -16,9 +16,12 @@ HEIGHT_LABEL = 200
 
 class MainWindow(QWidget):
     
-    img_pix = ""      # Image variable
-    img_PIL = ""
-    img_PIL_TEMP = ""
+    img_pix = ""        # current image variable (QPixmap)
+    img_PIL = ""        # original image
+    img_PIL_TEMP = ""   # image with processed operations applied
+    img_name = ""       # image name (its file name)
+    img_orig_size = []
+    img_size_factor = 1.0
     
     file_selected = False
     
@@ -31,6 +34,8 @@ class MainWindow(QWidget):
     optionsPack = []
     butt_blur = ""
     butt_crop = ""
+    butt_enlarge_img = ""
+    butt_decrease_img = ""
     
     def __init__(self):
         super().__init__()
@@ -59,8 +64,11 @@ class MainWindow(QWidget):
         self.settings_layout = QStackedLayout()
         main_layout.addLayout(self.settings_layout)
         
+        # TODO: insert settingsLayout into QWidget()!
+        
         display_img_container = QWidget()
         display_img_layout = QVBoxLayout()
+        
         display_img_container.setLayout(display_img_layout)
         display_img_container.setFixedWidth(int(self.width()*0.6))
         main_layout.addWidget(display_img_container)
@@ -72,9 +80,9 @@ class MainWindow(QWidget):
         
     def optionsLayout(self, layout: QVBoxLayout):
         self.butt_blur = QPushButton("Blur image")
-        self.butt_blur.setStyleSheet("padding: 0px 20px; font-size: 20px;")
+        self.butt_blur.setStyleSheet("padding: 0px 20px; font-size: 20px; min-height: 60px;")
         self.butt_crop = QPushButton("Crop image")
-        self.butt_crop.setStyleSheet("padding: 0px 20px; font-size: 20px;")
+        self.butt_crop.setStyleSheet("padding: 0px 20px; font-size: 20px; min-height: 60px;")
         
         self.butt_blur.clicked.connect(partial(self.changeSettingsOptions, 1))
         self.butt_crop.clicked.connect(partial(self.changeSettingsOptions, 2))
@@ -116,14 +124,50 @@ class MainWindow(QWidget):
         layout.addWidget(disp_option_2)
         
     def imageDisplayLayout(self, layout: QVBoxLayout):
+        # image label - displays its name
         img_label = QLabel(self)
         img_label.setMaximumHeight(30)
         img_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         img_label.setStyleSheet("border: 2px solid;")
         img_label.setText("No image selected")
         
+        SIZE_BUTTON_STYLESHEET = """:enabled { 
+                                            background-color: #DEDEDE;
+                                            height: 30px}
+                                        :disabled {
+                                            background-color: #A0004500;
+                                            height: 30px;
+                                            color: #80000000
+                                        }
+        """
+        
+        self.butt_enlarge_img = QPushButton("+")
+        self.butt_enlarge_img.clicked.connect(partial(self.changeImageSize, "enlarge"))
+        self.butt_enlarge_img.setStyleSheet(SIZE_BUTTON_STYLESHEET)
+        self.butt_decrease_img = QPushButton("-")
+        self.butt_decrease_img.clicked.connect(partial(self.changeImageSize, "decrease"))
+        self.butt_decrease_img.setStyleSheet(SIZE_BUTTON_STYLESHEET)
+        
+        self.optionsPack.append(self.butt_enlarge_img)
+        self.optionsPack.append(self.butt_decrease_img)
+        self.setOptions(self.optionsPack)
+        
+        label_img_container = QWidget()
+        label_img_layout = QHBoxLayout()
+        label_img_container.setMaximumSize(1000, 50)
+        label_img_container.setLayout(label_img_layout)
+        label_img_layout.addWidget(img_label)
+        label_img_layout.addWidget(self.butt_enlarge_img)
+        label_img_layout.addWidget(self.butt_decrease_img)
+        
+        # display image through QLabel
+        scroll_img_area = QScrollArea()
+        scroll_img_area.setWidgetResizable(True)
+        # scroll_img_area.setBackgroundRole(QtGui.QPalette)
+        
         self.img_disp = QLabel(self)
         self.img_disp.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        scroll_img_area.setWidget(self.img_disp)
         
         # buttons section
         butt_img_reset = QPushButton("Clear the selection")
@@ -135,8 +179,9 @@ class MainWindow(QWidget):
         
         # managing layout
         layout.addWidget(butt_open_file)
-        layout.addWidget(img_label)
-        layout.addWidget(self.img_disp)
+        layout.addWidget(label_img_container)
+        # layout.addWidget(self.img_disp)
+        layout.addWidget(scroll_img_area)
         layout.addWidget(butt_img_reset)
         
         
@@ -152,14 +197,20 @@ class MainWindow(QWidget):
             
             file_name = Path(file[0]).name
             self.img_PIL = Image.open(file[0])
+            self.img_PIL_TEMP = self.img_PIL
+            self.img_orig_size = [int(self.img_PIL.width), int(self.img_PIL.height)]
+            
             self.img_pix = functions.pil2pixmap(self.img_PIL)
             
-            label.setText(str(file_name))
+            self.img_name = str(file_name)
+            label.setText(self.img_name)
             # image.setPixmap(self.img.scaled(label.size(), Qt.AspectRatioMode.KeepAspectRatio))
             
             # if image size is greater than current window size - resize it:
             if functions.greaterThan(self.img_pix.size(), image.size()):
                 self.img_pix = self.img_pix.scaled(image.size(), aspectRatioMode=Qt.AspectRatioMode.KeepAspectRatio)
+                curr_img_size = self.img_pix.size()
+                self.img_size_factor = functions.setCurrentScaleFactor(self.img_orig_size, curr_img_size)
             
             image.setPixmap(self.img_pix)
             butt_reset.show()
@@ -173,6 +224,14 @@ class MainWindow(QWidget):
             
     def clearTheImage(self, label: QLabel, butt_reset: QPushButton):
         self.img_disp.clear()
+        self.img_pix = ""
+        self.img_PIL = ""
+        self.img_PIL_TEMP = ""
+        self.img_name = ""
+        self.img_size_factor = 1
+        self.img_orig_size = []
+        self.file_selected = False
+        self.setOptions(self.optionsPack)
         butt_reset.hide()
         label.setText("No image selected")
         
@@ -180,7 +239,7 @@ class MainWindow(QWidget):
         self.settings_layout.setCurrentIndex(currIndex)
         
     def settingsBlurImage(self):
-        self.img_pix, self.img_PIL_TEMP = functions.imageBlur(self.img_PIL)
+        self.img_pix, self.img_PIL_TEMP = functions.imageBlur(self.img_PIL_TEMP)
         self.img_disp.setPixmap(self.img_pix)
         
     def setOptions(self, buttons: list):
@@ -188,3 +247,18 @@ class MainWindow(QWidget):
         for butt in buttons:
             print(butt)
             butt.setEnabled(self.file_selected)
+    
+    def changeImageSize(self, option):
+        # TODO: RETHINK setting scale factor values
+        # f.e. for large images, when initial scale is around 13% scaling with initial 5% UP or DOWN gives:
+        # 13% + 5% = 18%        <-- image much larger ~ x1,38
+        # 13% - 5% = 8%         <-- image much smaller ~ x0,61
+        
+        if option == 'enlarge':
+            self.img_size_factor += 0.05
+        elif option == 'decrease':
+            self.img_size_factor -= 0.05
+            
+        self.img_pix = functions.rescaleImage(self.img_PIL_TEMP, functions.multiplyListInt(self.img_orig_size, self.img_size_factor))
+        
+        self.img_disp.setPixmap(self.img_pix)

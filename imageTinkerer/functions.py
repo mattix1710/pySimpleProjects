@@ -24,7 +24,25 @@ def greaterThan(obj1: QSize, obj2: QSize):
         return True
     return False
 
+# def rescaleImage(img_size: QSize, diff: float):
+#     return QSize(int(img_size.width()*diff), int(img_size.height()*diff))
+
+def rescaleImage(im: Image, scale_factor: list):
+    im = im.resize(scale_factor, Image.Resampling.LANCZOS)
+    return pil2pixmap(im)
+
+def multiplyListInt(list: list, scale_factor: float):
+    li = []
+    for el in list:
+        li.append(int(el * scale_factor))
+    return li
+
+def setCurrentScaleFactor(origSize: tuple, pixSize: QSize):
+    # print(pixSize.width()/origSize[0])
+    # print(pixSize.height()/origSize[1])
+    return pixSize.width()/origSize[0]
+
 def imageBlur(inImg: Image):
-    img_processed = inImg.filter(ImageFilter.GaussianBlur(3))
+    img_processed = inImg.filter(ImageFilter.GaussianBlur(10))
     img_pix = pil2pixmap(img_processed)
     return img_pix, img_processed

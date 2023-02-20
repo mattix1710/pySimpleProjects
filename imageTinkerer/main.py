@@ -9,7 +9,6 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     app.setStyleSheet("""QPushButton{
                             color: blue;
-                            min-height: 60px;
                             font-size: 25px;
                             font-weight: 500;
                     }""")
