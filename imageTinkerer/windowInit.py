@@ -40,7 +40,7 @@ class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.resize(1280, 720)
-        self.setWindowTitle("ImageCreator")
+        self.setWindowTitle("ImageEditor")
         
         self.UILayouts()
         

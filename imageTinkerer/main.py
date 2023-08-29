@@ -16,3 +16,8 @@ if __name__ == '__main__':
     window = windowInit.MainWindow()
     window.show()
     sys.exit(app.exec())
+    
+    # TODO: dodać resizing obrazów; przemyśleć resizing okna programu
+    # IDEA - resize:
+    #   najpierw program odczytuje rozmiar pliku i można to dostosować do wymaganych ograniczeń, np. max 2MB, albo rozmiar obrazu
+    
