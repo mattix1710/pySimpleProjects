@@ -1,12 +1,13 @@
 from PyQt6.QtWidgets import QApplication
 import sys
+import qdarkstyle
 
 import windowInit
-import subprocess
-import re
-        
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
+    
+    app.setStyleSheet(qdarkstyle.load_stylesheet())
     
     # app.setStyleSheet("""QPushButton{
     #                         color: blue;
