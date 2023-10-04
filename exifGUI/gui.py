@@ -9,33 +9,45 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 
 
-class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1132, 770)
-        self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
+class Ui_ExifGUI(object):
+    def setupUi(self, ExifGUI):
+        ExifGUI.setObjectName("ExifGUI")
+        ExifGUI.resize(705, 563)
+        self.centralwidget = QtWidgets.QWidget(parent=ExifGUI)
         self.centralwidget.setObjectName("centralwidget")
+        self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
+        self.gridLayout.setObjectName("gridLayout")
+        self.horizontalLayout = QtWidgets.QHBoxLayout()
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.verticalLayout = QtWidgets.QVBoxLayout()
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.butt_metadata = QtWidgets.QPushButton(parent=self.centralwidget)
+        self.butt_metadata.setMinimumSize(QtCore.QSize(110, 40))
+        self.butt_metadata.setMaximumSize(QtCore.QSize(120, 60))
+        self.butt_metadata.setObjectName("butt_metadata")
+        self.verticalLayout.addWidget(self.butt_metadata)
+        self.horizontalLayout.addLayout(self.verticalLayout)
         self.table = QtWidgets.QTableWidget(parent=self.centralwidget)
-        self.table.setGeometry(QtCore.QRect(380, 140, 621, 401))
+        self.table.setMinimumSize(QtCore.QSize(300, 500))
+        self.table.setMaximumSize(QtCore.QSize(1000, 700))
         self.table.setObjectName("table")
         self.table.setColumnCount(0)
         self.table.setRowCount(0)
-        self.butt_metadata = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.butt_metadata.setGeometry(QtCore.QRect(130, 330, 161, 71))
-        self.butt_metadata.setObjectName("butt_metadata")
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(parent=MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1132, 22))
+        self.horizontalLayout.addWidget(self.table)
+        self.gridLayout.addLayout(self.horizontalLayout, 0, 0, 1, 1)
+        ExifGUI.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(parent=ExifGUI)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 705, 22))
         self.menubar.setObjectName("menubar")
-        MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(parent=MainWindow)
+        ExifGUI.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(parent=ExifGUI)
         self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
+        ExifGUI.setStatusBar(self.statusbar)
 
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.retranslateUi(ExifGUI)
+        QtCore.QMetaObject.connectSlotsByName(ExifGUI)
 
-    def retranslateUi(self, MainWindow):
+    def retranslateUi(self, ExifGUI):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.butt_metadata.setText(_translate("MainWindow", "Review metadata"))
+        ExifGUI.setWindowTitle(_translate("ExifGUI", "Exif GUI"))
+        self.butt_metadata.setText(_translate("ExifGUI", "Wybierz plik"))
