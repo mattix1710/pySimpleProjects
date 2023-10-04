@@ -43,6 +43,13 @@ class MainWindow(widget.QMainWindow):
         self.ui.table.setColumnCount(2)
         self.ui.table.setHorizontalHeaderLabels(["Parametr", "Dane"])
         
+        table_font = QtGui.QFont()
+        table_font.setPointSize(11)
+        table_font.setFamily("Roboto")
+        self.ui.table.setFont(table_font)
+        
+        # self.ui.table.setStyleSheet("{color: #149414}")
+        
         header = self.ui.table.horizontalHeader()
         header.setSectionResizeMode(0, widget.QHeaderView.ResizeMode.Stretch)
         header.setSectionResizeMode(1, widget.QHeaderView.ResizeMode.Stretch)
@@ -55,7 +62,15 @@ class MainWindow(widget.QMainWindow):
         self.ui.table.setRowCount(len(meta_list))
         
         for el, counter in zip(meta_list, range(len(meta_list))):
-            self.ui.table.setItem(counter, 0, widget.QTableWidgetItem(el[0]))
-            self.ui.table.setItem(counter, 1, widget.QTableWidgetItem(el[1]))
+            color = "#149414"
+            
+            parameter_item = widget.QTableWidgetItem(el[0])
+            parameter_item.setForeground(QtGui.QBrush(QtGui.QColor(color)))
+            
+            data_item = widget.QTableWidgetItem(el[1])
+            data_item.setForeground(QtGui.QBrush(QtGui.QColor(color)))
+            
+            self.ui.table.setItem(counter, 0, parameter_item)
+            self.ui.table.setItem(counter, 1, data_item)
             
     
