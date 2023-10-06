@@ -29,12 +29,17 @@ class MainWindow(widget.QMainWindow):
         # uic.loadUi('gui/main.ui', self)
         
         self.UI_manager()
+        self.tempo()
         
         # uic.load_ui('main.ui', self)    # loading the .ui file
         self.show()                     # show the GUI
         
-    def UI_manager(self):
+    def tempo(self):
+        self.ui.click_box_video.setEnabled(False)
+        self.ui.click_box_audio.addItems(['96', '128', '320'])
         
+        
+    def UI_manager(self):
         self.ui.butt_search.clicked.connect(self.handle_inserted_text)
 
     def handle_inserted_text(self):
@@ -52,7 +57,7 @@ class MainWindow(widget.QMainWindow):
             # set thumbnail picture
             image = QtGui.QImage()
             image.loadFromData(requests.get(self.element_handler.getThumbnailPicUrl()).content)
-            img_pixmap = QtGui.QPixmap(image).scaledToHeight(180)#self.ui.label_md.height())
+            img_pixmap = QtGui.QPixmap(image).scaledToHeight(180, mode = Qt.TransformationMode.SmoothTransformation)#self.ui.label_md.height())
             
             self.ui.label_md.setPixmap(img_pixmap)
             
