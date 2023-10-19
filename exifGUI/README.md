@@ -9,7 +9,7 @@ All supported file types are listed on [this](https://exiftool.org/#supported) s
 ---
 
 Program made with:
-* Python 3.11 and its external packages:
+* **Python 3.11** and its external packages:
   * PyQT 6.5.2
   * QDarkStyle 3.1
 * ExifTool by Phil Harvey
