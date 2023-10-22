@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'gui\main.ui'
+# Form implementation generated from reading ui file '.\gui\main.ui'
 #
 # Created by: PyQt6 UI code generator 6.4.2
 #
@@ -12,23 +12,15 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1280, 720)
+        MainWindow.resize(1014, 720)
         MainWindow.setMinimumSize(QtCore.QSize(0, 40))
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        self.insert_url_edit = QtWidgets.QTextEdit(parent=self.centralwidget)
-        self.insert_url_edit.setGeometry(QtCore.QRect(350, 70, 401, 51))
-        self.insert_url_edit.setFrameShape(QtWidgets.QFrame.Shape.WinPanel)
-        self.insert_url_edit.setFrameShadow(QtWidgets.QFrame.Shadow.Plain)
-        self.insert_url_edit.setLineWidth(1)
-        self.insert_url_edit.setMidLineWidth(0)
-        self.insert_url_edit.setMarkdown("")
-        self.insert_url_edit.setObjectName("insert_url_edit")
         self.butt_search = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.butt_search.setGeometry(QtCore.QRect(750, 70, 81, 51))
+        self.butt_search.setGeometry(QtCore.QRect(680, 70, 81, 51))
         self.butt_search.setObjectName("butt_search")
         self.label_title_result = QtWidgets.QLabel(parent=self.centralwidget)
-        self.label_title_result.setGeometry(QtCore.QRect(490, 170, 201, 81))
+        self.label_title_result.setGeometry(QtCore.QRect(420, 170, 201, 81))
         font = QtGui.QFont()
         font.setPointSize(24)
         font.setBold(True)
@@ -36,19 +28,19 @@ class Ui_MainWindow(object):
         self.label_title_result.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.label_title_result.setObjectName("label_title_result")
         self.label_result = QtWidgets.QLabel(parent=self.centralwidget)
-        self.label_result.setGeometry(QtCore.QRect(330, 250, 531, 41))
+        self.label_result.setGeometry(QtCore.QRect(260, 250, 531, 41))
         self.label_result.setFrameShape(QtWidgets.QFrame.Shape.Box)
         self.label_result.setLineWidth(2)
         self.label_result.setText("")
         self.label_result.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.label_result.setObjectName("label_result")
         self.label_md = QtWidgets.QLabel(parent=self.centralwidget)
-        self.label_md.setGeometry(QtCore.QRect(410, 320, 320, 180))
+        self.label_md.setGeometry(QtCore.QRect(340, 320, 320, 180))
         self.label_md.setFrameShape(QtWidgets.QFrame.Shape.Box)
         self.label_md.setTextFormat(QtCore.Qt.TextFormat.MarkdownText)
         self.label_md.setObjectName("label_md")
         self.horizontalLayoutWidget = QtWidgets.QWidget(parent=self.centralwidget)
-        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(370, 540, 401, 82))
+        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(300, 540, 401, 82))
         self.horizontalLayoutWidget.setObjectName("horizontalLayoutWidget")
         self.layout_download = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget)
         self.layout_download.setSizeConstraint(QtWidgets.QLayout.SizeConstraint.SetMinimumSize)
@@ -96,9 +88,17 @@ class Ui_MainWindow(object):
         self.butt_download.setIcon(icon)
         self.butt_download.setObjectName("butt_download")
         self.layout_download.addWidget(self.butt_download)
+        self.insert_url_edit = QtWidgets.QLineEdit(parent=self.centralwidget)
+        self.insert_url_edit.setGeometry(QtCore.QRect(280, 70, 400, 50))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.insert_url_edit.sizePolicy().hasHeightForWidth())
+        self.insert_url_edit.setSizePolicy(sizePolicy)
+        self.insert_url_edit.setObjectName("insert_url_edit")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(parent=MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1280, 22))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1014, 22))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(parent=MainWindow)
@@ -111,18 +111,10 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.insert_url_edit.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"hr { height: 1px; border-width: 0; }\n"
-"li.unchecked::marker { content: \"\\2610\"; }\n"
-"li.checked::marker { content: \"\\2612\"; }\n"
-"</style></head><body style=\" font-family:\'Segoe UI\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
-        self.insert_url_edit.setPlaceholderText(_translate("MainWindow", "Insert URL here"))
         self.butt_search.setText(_translate("MainWindow", "Search"))
         self.label_title_result.setText(_translate("MainWindow", "Results"))
         self.label_md.setText(_translate("MainWindow", "TextLabel"))
         self.label_video.setText(_translate("MainWindow", "Video"))
         self.label_audio.setText(_translate("MainWindow", "Audio"))
-        self.butt_download.setText(_translate("MainWindow", "PushButton"))
+        self.butt_download.setText(_translate("MainWindow", "Download"))
+        self.insert_url_edit.setPlaceholderText(_translate("MainWindow", "Insert URL here"))
